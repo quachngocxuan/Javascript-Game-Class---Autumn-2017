@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Gamedev Canvas Workshop</title>
+    <style>
+    	* { padding: 0; margin: 0; }
+    	canvas { background: #eee; display: block; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="480" height="320"></canvas>
+
+<script>
+// Get the canvas
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+
+function drawBall() {
+	// Clear screen
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	
+	ctx.beginPath();
+	// draw a circle
+	ctx.arc(x, y, radius, 0, Math.PI*2, false);
+	ctx.fillStyle = "green";
+	ctx.fill();
+	ctx.closePath();
+	
+	// Check if ball reached the left or the right border
+	if (x + dx < radius || x + dx > canvas.width - radius)
+		dx = -dx;
+	
+	// Check if ball reached the top or the bottom border
+	if (y + dy < radius || y + dy > canvas.height - radius)
+		dy = -dy;
+		
+	x = x + dx;
+	y = y + dy;
+}
+
+var x = 50;		// horizontal position of the ball
+var y = 50;		// vertical position of the ball
+var dx = 1;	// difference of x
+var dy = 1;	// difference of y
+var radius = 50;	// radius of ball
+
+setInterval(drawBall, 10); // call drawBall every 10 milliseconds
+
+
+</script>
+
+</body>
+</html>
