@@ -9,7 +9,7 @@
 - Some common tags
 - Some style attributes
 - How to layout a web page by absolute positioning
-- Exercise
+- Exercises
 
 ## Install a webpage editor
 In this course, we'll an HTML editor to edit web pages. Students can choose one of these editors: Notepad++, Sublime, Brackets
@@ -83,8 +83,8 @@ To position a content on a web page absolutely you should follow two steps
 ```HTML
 <head>
   <style>
-    div#image {
-	    position: absolute;
+    div#image1 {
+      position: absolute;
       left: 10px;
       border:5px solid green;
       text-align:center;
@@ -93,6 +93,12 @@ To position a content on a web page absolutely you should follow two steps
   </style>
  </head>
  ```
+ - **position**: set as absolute to position the container absolutely
+ - **left, right, bottom, top**: to align the container
+ - **border**: to set border of the container
+ - **text-align**: to align content in the container
+ - **padding**: to set space between content and border
  
-## Exercise
-Create a web page with 4 box on each corner of the web page
+## Exercises
+- Create a web page with any content: text, images, hyperlinks, Youtube videos
+- Create a web page with 4 box on each corner of the web page
