@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Gamedev Canvas Workshop</title>
+    <style>
+    	* { padding: 0; margin: 0; }
+    	canvas { background: #eee; display: block; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="480" height="320"></canvas>
+
+<script>
+function drawGame() {
+	// Clear screen
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	
+	drawBall();
+	drawPaddle();
+	
+	checkCollision();
+	
+	checkGameOver();
+}
+
+function resetGame() {
+	x = [50, 100, 150];
+	y = [50, 50, 50];
+	paddle_x = 0;
+}
+
+function checkGameOver() {
+	var gameover = true;	// all balls go out
+
+	for (var index=0; index < x.length; index++) {
+		if (y[index] < canvas.height + radius) {
+			gameover = false;
+			break;
+		}
+	}
+	
+	if (gameover == true) {
+		alert("Game over");
+		resetGame();
+	}
+}
+
+function checkCollision() {
+	for(var index = 0; index < x.length; index++) { 
+		// check the ball collides the paddle
+		if (paddle_x <= x[index] && x[index] <= paddle_x + paddle_width &&  y[index] + radius == paddle_y)
+			dy[index] = -dy[index];
+	}
+}
+
+function drawBall() {
+	for (var index = 0; index < x.length; index++) {
+		ctx.beginPath();
+		// draw a circle
+		ctx.arc(x[index], y[index], radius, 0, Math.PI*2, false);
+		ctx.fillStyle = "green";
+		ctx.fill();
+		ctx.closePath();
+		
+		// Check if ball reached the left or the right border
+		if (x[index] + dx[index] < radius)
+			dx[index] = -dx[index];
+		
+		if (x[index] + dx[index] > canvas.width - radius)
+			dx[index] = -dx[index];
+		
+		// Check if ball reached the top or the bottom border
+		if (y[index] + dy[index] < radius)
+			dy[index] = -dy[index];
+			
+		x[index] = x[index] + dx[index];
+		y[index] = y[index] + dy[index];
+	}	
+}
+
+function drawPaddle() {
+	ctx.beginPath();
+	ctx.rect(paddle_x, canvas.height - paddle_height, paddle_width, paddle_height);
+	ctx.fillStyle = "blue";
+	ctx.fill();
+	ctx.closePath();
+}
+
+// Get the canvas
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+
+var x = [50, 100, 150];		// horizontal position of the ball
+var y = [50, 50, 50];		// vertical position of the ball
+var dx = [1, -1, 1];	// difference of x
+var dy = [1, 1, -1];	// difference of y
+var radius = 10;	// radius of ball
+
+var paddle_x = 0;
+const paddle_width = 100;
+const paddle_height = 10;
+const paddle_y = canvas.height - paddle_height;
+
+setInterval(drawGame, 10); // call drawBall every 10 milliseconds
+
+// Capture arrow keys
+document.addEventListener("keydown", function(event) {
+	updatePaddle(event.keyCode);
+});
+
+// update postition of the paddle
+// - keyCode: key was pressed (arrow left: 37, arrow right: 39)
+function updatePaddle(keyCode) {
+	if (keyCode == 37)	// arrow LEFT
+		if (paddle_x > 0)
+			paddle_x = paddle_x - 10;
+	
+	if (keyCode == 39)	// arrow RIGHT
+		if (paddle_x < canvas.width - paddle_width)
+			paddle_x = paddle_x + 10;
+}
+
+</script>
+
+</body>
+</html>
